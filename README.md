@@ -29,6 +29,7 @@ Command    | Description
 :HL #      | Set the heading line number
 :Sort      | Sort by the current column. Can sort visually selected regions.
 :CC        | Copy the current column.
+:GC #      | Go to a specific column
 
 VARIABLE
 ==============================================================================

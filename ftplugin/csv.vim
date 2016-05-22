@@ -431,6 +431,15 @@ endfunction
 " Use :SC n=string<CR> to search for string in the n-th column
 command! -buffer -nargs=1 SC execute s:SearchColumn('<args>')|normal! n
 
+" Go to the n-th column
+function! s:GotoColumn(colnr)
+  if a:colnr > 0
+    let b:csv_column=a:colnr
+    call s:Highlight(a:colnr)
+  end
+endfunction
+command! -buffer -nargs=? GC call s:GotoColumn('<args>')
+
 nnoremap <silent> <buffer> H :call <SID>HighlightPrevColumn()<CR>
 nnoremap <silent> <buffer> L :call <SID>HighlightNextColumn()<CR>
 nnoremap <silent> <buffer> J <Down>:call <SID>Focus_Column(b:csv_column)<CR>
