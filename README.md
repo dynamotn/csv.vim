@@ -29,3 +29,11 @@ Command    | Description
 :HL #      | Set the heading line number
 :Sort      | Sort by the current column. Can sort visually selected regions.
 :CC        | Copy the current column.
+
+VARIABLE
+==============================================================================
+
+Variable                  | Description                           | Default
+-------                   | -----------                           | -------
+b:csv_heading_line_number | Index of column header line in buffer | 1
+g:csv_show_column         | Show column header on status line     | 1
