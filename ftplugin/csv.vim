@@ -234,9 +234,9 @@ endfunction
 
 " Wrapping would distort the column-based layout.
 " Lines must not be broken when typed.
-setlocal nowrap textwidth=0
+setlocal nowrap textwidth=0 wrapmargin=0
 " Undo the stuff we changed.
-let b:undo_ftplugin = "setlocal wrap< textwidth<"
+let b:undo_ftplugin = "setlocal wrap< textwidth< wrapmargin<"
       \ . "|if exists('*matchdelete')|call matchdelete(b:csv_match)|else|2match none|endif"
       \ . "|sil! exe 'nunmap <buffer> H'"
       \ . "|sil! exe 'nunmap <buffer> L'"
