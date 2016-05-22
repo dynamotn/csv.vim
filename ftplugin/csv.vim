@@ -52,7 +52,7 @@ function! s:Delimiter(delim)
   silent call s:Highlight(b:csv_column)
   echo printf('Delimiter = "%s"', b:csv_delimiter == "\t" ? '\t' : strtrans(b:csv_delimiter))
 endfunction
-command! -buffer -nargs=? Delimiter call s:Delimiter('<args>')
+command! -buffer -nargs=? CsvDelimiter call s:Delimiter('<args>')
 
 " Get string containing delimiter (default ',') specified for current buffer.
 " A command like ':let g:csv_delimiter = ";"' changes the default.
@@ -221,7 +221,7 @@ function! s:SetHeadinglineNumber(linenr)
   " line
   call s:GetNumCols(b:csv_heading_line_number)
 endfunction
-command! -buffer -nargs=? HL call s:SetHeadinglineNumber('<args>')
+command! -buffer -nargs=? CsvHeadingLine call s:SetHeadinglineNumber('<args>')
 
 " Highlight n-th column (if n > 0).
 " Remove previous highlight match (ignore error if none).
@@ -361,12 +361,12 @@ function! s:SortColumn(bang, range_given, line1, line2, ...) range
     execute cmd 'r'.flags '/'.escape(s:GetExpr(colnr), '/').'/'
   endif
 endfunction
-command! -bang -buffer -nargs=* -range=0 Sort call s:SortColumn('<bang>', <count>, <line1>, <line2>, <f-args>)
+command! -bang -buffer -nargs=* -range=0 CsvSortColumn call s:SortColumn('<bang>', <count>, <line1>, <line2>, <f-args>)
 
 " Copy an entire column into a register.
 " Column number can be omitted (default is the current column).
 " Register is a-z, or A-Z (append), or omitted for the unnamed register.
-" Example: ':CC 12 b' copies column 12 into register b.
+" Example: ':CscCopyColumn 12 b' copies column 12 into register b.
 function! s:CopyColumn(args)
   let l = matchlist(a:args, '^\(\d*\)\s*\(\a\)\?$')
   if len(l) < 3
@@ -386,7 +386,7 @@ function! s:CopyColumn(args)
   endfor
   execute 'let @'.reg.' = join(cells, "\n")."\n"'
 endfunction
-command! -buffer -nargs=* CC call s:CopyColumn('<args>')
+command! -buffer -nargs=* CsvCopyColumn call s:CopyColumn('<args>')
 
 " Delete the n-th column, the highlighted one by default.
 function! s:DeleteColumn(colnr)
@@ -407,7 +407,7 @@ function! s:DeleteColumn(colnr)
     call s:HighlightPrevColumn()
   endif
 endfunction
-command! -buffer -nargs=? DC call s:DeleteColumn('<args>')
+command! -buffer -nargs=? CsvDeleteColumn call s:DeleteColumn('<args>')
 
 " Search the n-th column. Argument in n=regex form where n is the column
 " number, and regex is the expression to use. If "n=" is omitted, then
@@ -429,7 +429,7 @@ function! s:SearchColumn(args)
   endif
 endfunction
 " Use :SC n=string<CR> to search for string in the n-th column
-command! -buffer -nargs=1 SC execute s:SearchColumn('<args>')|normal! n
+command! -buffer -nargs=1 CsvSearchColumn execute s:SearchColumn('<args>')|normal! n
 
 " Go to the n-th column
 function! s:GotoColumn(colnr)
@@ -438,7 +438,7 @@ function! s:GotoColumn(colnr)
     call s:Highlight(a:colnr)
   end
 endfunction
-command! -buffer -nargs=? GC call s:GotoColumn('<args>')
+command! -buffer -nargs=? CsvGotoColumn call s:GotoColumn('<args>')
 
 nnoremap <silent> <buffer> H :call <SID>HighlightPrevColumn()<CR>
 nnoremap <silent> <buffer> L :call <SID>HighlightNextColumn()<CR>
