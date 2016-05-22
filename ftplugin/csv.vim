@@ -184,7 +184,22 @@ function! CSV_WCol(...)
   if exists("a:1") && (a:1 == 'Name' || a:1 == 1)
     return strpart(colHeading, 0, (&columns / 2)) . (len(colHeading) > (&columns / 2) ? '...' : '')
   else
-    return printf(" %d/%d", b:csv_column, b:csv_max_col)
+    if !exists('g:csv_excel_column_format') || !g:csv_excel_column_format
+      return printf(" %d/%d", b:csv_column, b:csv_max_col)
+    else
+      return ' '.CSV_ExcelCol(b:csv_column)
+    end
+  end
+endfunction
+
+" Get Excel letter of column number
+function! CSV_ExcelCol(colnr)
+  if a:colnr == 0
+    return 'Z'
+  elseif a:colnr <= 26
+    return nr2char(char2nr('A') + a:colnr - 1)
+  else
+    return CSV_ExcelCol((a:colnr - 1) / 26).CSV_ExcelCol(a:colnr % 26)
   end
 endfunction
 

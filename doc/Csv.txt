@@ -38,3 +38,4 @@ Variable                  | Description                           | Default
 -------                   | -----------                           | -------
 b:csv_heading_line_number | Index of column header line in buffer | 1
 g:csv_show_column         | Show column header on status line     | 1
+g:csv_excel_column_format | Show column number by Excel format    | 0
