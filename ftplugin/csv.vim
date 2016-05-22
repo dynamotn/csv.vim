@@ -159,19 +159,33 @@ endfunction
 let b:csv_heading_line_number=1
 
 " Extract and echo the column header on the status line.
+" Command like 'let g:csv_show_column=0' will disable this feature
 function! s:PrintColumnInfo(colnr)
-  let colHeading = substitute(matchstr(getline(b:csv_heading_line_number), s:GetExpr(a:colnr)),
-        \ '^\s*\(.*\)\s*$', '\1', '')
-  let info = 'Column ' . a:colnr
-  if empty(colHeading)
-    echo info
+  if !exists('g:csv_show_column') || g:csv_show_column
+    let colHeading = substitute(matchstr(getline(b:csv_heading_line_number), s:GetExpr(a:colnr)),
+      \ '^\s*\(.*\)\s*$', '\1', '')
+    let info = 'Column ' . a:colnr
+    if empty(colHeading)
+      echo info
+    else
+      echon info . ': '
+      echohl Type
+      " Limit length to avoid "Hit ENTER" prompt.
+      echon CSV_WCol('Name')
+      echohl NONE
+    endif
+  end
+endfunction
+
+" Get column header
+function! CSV_WCol(...)
+  let colHeading = substitute(matchstr(getline(b:csv_heading_line_number), s:GetExpr(b:csv_column)),
+    \ '^\s*\(.*\)\s*$', '\1', '')
+  if exists("a:1") && (a:1 == 'Name' || a:1 == 1)
+    return strpart(colHeading, 0, (&columns / 2)) . (len(colHeading) > (&columns / 2) ? '...' : '')
   else
-    echon info . ': '
-    echohl Type
-    " Limit length to avoid "Hit ENTER" prompt.
-    echon strpart(colHeading, 0, (&columns / 2)) . (len(colHeading) > (&columns / 2) ? '...' : '')
-    echohl NONE
-  endif
+    return printf(" %d/%d", b:csv_column, b:csv_max_col)
+  end
 endfunction
 
 " Change csv_heading_line_number to specified line.

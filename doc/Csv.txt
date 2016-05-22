@@ -3,6 +3,7 @@ INTRODUCTION                                                             *csv*
 ==============================================================================
 
 A mirror of the [wikia csv plugin](http://vim.wikia.com/wiki/Csv)
+and integrate with vim-airline
 
 KEYBOARD                                                            *csv-keys*
 ==============================================================================
