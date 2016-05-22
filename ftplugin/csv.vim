@@ -164,7 +164,11 @@ function! s:PrintColumnInfo(colnr)
   if !exists('g:csv_show_column') || g:csv_show_column
     let colHeading = substitute(matchstr(getline(b:csv_heading_line_number), s:GetExpr(a:colnr)),
       \ '^\s*\(.*\)\s*$', '\1', '')
-    let info = 'Column ' . a:colnr
+    if !exists('g:csv_excel_column_format') || !g:csv_excel_column_format
+      let info = 'Column ' . a:colnr
+    else
+      let info = 'Column ' . CSV_ExcelCol(a:colnr)
+    end
     if empty(colHeading)
       echo info
     else
