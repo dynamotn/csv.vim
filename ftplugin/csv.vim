@@ -270,7 +270,7 @@ endfunction
 setlocal nowrap textwidth=0 wrapmargin=0
 " Undo the stuff we changed.
 let b:undo_ftplugin = "setlocal wrap< textwidth< wrapmargin<"
-      \ . "|if exists('*matchdelete')|call matchdelete(b:csv_match)|else|2match none|endif"
+      \ . "|if exists('*matchdelete')|silent! call matchdelete(b:csv_match)|else|2match none|endif"
       \ . "|sil! exe 'nunmap <buffer> H'"
       \ . "|sil! exe 'nunmap <buffer> L'"
       \ . "|sil! exe 'nunmap <buffer> J'"
@@ -459,8 +459,6 @@ nnoremap <silent> <buffer> <LocalLeader>K K
 execute 'augroup csv' . bufnr('')
   autocmd!
   " These events only highlight in the current window.
-  " Note: Highlighting gets slightly confused if the same buffer is present in
-  " two split windows next to each other, because then the events aren't fired.
   autocmd BufLeave <buffer> silent call s:Highlight(0)
   autocmd BufEnter <buffer> silent call s:Highlight(b:csv_column)
 augroup END
