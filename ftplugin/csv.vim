@@ -366,7 +366,7 @@ command! -bang -buffer -nargs=* -range=0 CsvSortColumn call s:SortColumn('<bang>
 " Copy an entire column into a register.
 " Column number can be omitted (default is the current column).
 " Register is a-z, or A-Z (append), or omitted for the unnamed register.
-" Example: ':CscCopyColumn 12 b' copies column 12 into register b.
+" Example: ':CsvCopyColumn 12 b' copies column 12 into register b.
 function! s:CopyColumn(args)
   let l = matchlist(a:args, '^\(\d*\)\s*\(\a\)\?$')
   if len(l) < 3
@@ -389,16 +389,25 @@ endfunction
 command! -buffer -nargs=* CsvCopyColumn call s:CopyColumn('<args>')
 
 " Delete the n-th column, the highlighted one by default.
-function! s:DeleteColumn(colnr)
-  if empty(a:colnr)
-    let col = b:csv_column
-  else
-    let col = str2nr(a:colnr)
+" Column number can be omitted (default is the current column).
+" Except delimiter is number, if omitted or 0 then delete include delimiter
+" Example: ':CsvDeleteColumn 12 1' delete column 12 except delimiter
+function! s:DeleteColumn(args)
+  let l = matchlist(a:args, '^\(\d*\)\s*\(\d\)\?$')
+  if len(l) < 3
+    call s:Warn('Invalid arguments (need column_number is_except_delimiter)')
+    return
   endif
+  let col = empty(l[1]) ? b:csv_column : str2nr(l[1])
+  let except_delimiter = empty(l[2]) ? 0 : l[2]
   if col < 1 || col > b:csv_max_col
     call s:Warn('Column number out of range')
   endif
-  execute '%s/'.escape(s:GetExpr(col, 1), '/').'//'
+  if except_delimiter == 0
+    execute '%s/'.escape(s:GetExpr(col, 1), '/').'//'
+  else
+    execute '%s/'.escape(s:GetExpr(col), '/').'//'
+  endif
   if col == b:csv_max_col
     execute 'silent %s/'.escape(s:GetStr('delco'), '/').'//e'
   endif

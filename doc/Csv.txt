@@ -21,16 +21,16 @@ gm  | normal | Jump back to focused column/row.
 COMMAND                                                                                                           *csv-commands*
 ================================================================================================================================
 
-Command            | Description
--------            | -----------
-:CsvDelimiter #    | Change the delimiter for a file. Takes a single character.
-:CsvDeleteColumn # | Delete a specific column (empty to current column)
-:CsvSearchColumn # | Search the current column.
-:Csv #             | Highlight a specific column (0 to turn off).
-:CsvHeadlingLine # | Set the heading line number
-:CsvSortColumn     | Sort by the current column. Can sort visually selected regions.
-:CsvCopyColumn # # | Copy a specific column to a register (first argument empty to current column, second to unamed register)
-:CsvGotoColumn #   | Go to a specific column
+Command              | Description
+-------              | -----------
+:CsvDelimiter #      | Change the delimiter for a file. Takes a single character.
+:CsvDeleteColumn # # | Delete a specific column (first argument empty to current columnm, second is except delimiter)
+:CsvSearchColumn #   | Search the current column.
+:Csv #               | Highlight a specific column (0 to turn off).
+:CsvHeadlingLine #   | Set the heading line number
+:CsvSortColumn       | Sort by the current column. Can sort visually selected regions.
+:CsvCopyColumn # #   | Copy a specific column to a register (first argument empty to current column, second to unamed register)
+:CsvGotoColumn #     | Go to a specific column
 
 VARIABLE                                                                                                          *csv-variable*
 ================================================================================================================================
